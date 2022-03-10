@@ -1,8 +1,19 @@
+const terrainMap = {
+    plains: "#66ff66",
+    forest: "#669900",
+    hills: "#ccff66",
+    mountains: "#669999",
+    lakes: "#3399ff",
+    reset: "#fff"
+}
+
 const a = 2 * Math.PI / 6;
 const r = 50;
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
+
+const terrainSelection = document.getElementById("terrain");
 
 const hexes = [];
 
@@ -30,7 +41,9 @@ function drawGrid(width, height) {
 canvas.addEventListener("click", function(e) {
     const hexIdx = findHex(e.clientX, e.clientY);
 
-    colorHex(hexIdx);
+    const terrainType = getTerrainType();
+
+    colorHex(hexIdx, terrainType);
 })
 
 function findHex(x, y) {
@@ -42,26 +55,22 @@ function findHex(x, y) {
     return idx;
 }
 
-function colorHex(index) {
+function getTerrainType() {
+    return terrainSelection.value;
+}
+
+function colorHex(index, terrainType) {
     const hexCntr = hexes[index];
+    
     ctx.beginPath();
-    for (var i = 0; i < 6; i++) {
-        ctx.lineTo(hexCntr[0] + r * Math.cos(a * i), hexCntr[1] + r * Math.sin(a * i));
-    }
-    // if (ctx.fillStyle === '#008000') {
-    //     ctx.fillStyle = "white";
-    // } else {
-    //     ctx.fillStyle = "green";
-    // }
-    ctx.fillStyle = "green";
-    ctx.fill();
-    ctx.stroke();
+        for (var i = 0; i < 6; i++) {
+            ctx.lineTo(hexCntr[0] + r * Math.cos(a * i), hexCntr[1] + r * Math.sin(a * i));
+        }
+        ctx.fillStyle = terrainMap[terrainType];
+        ctx.fill();
+        ctx.stroke();
 }
 
 drawGrid(canvas.width, canvas.height)
-
-// const img = new Image();
-// img.src = canvas.toDataURL("image/png");
-// imgWrapper.appendChild(img);
 
 
