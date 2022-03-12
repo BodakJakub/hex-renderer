@@ -31,10 +31,13 @@ function drawHexagon(x, y) {
 // hexagons and grid drawing from https://eperezcosano.github.io/hex-grid/
 
 function drawGrid(width, height) {
-    for (let y = r; y + r * Math.sin(a) < height; y += r * Math.sin(a)) {
-      for (let x = r, j = 0; x + r * (1 + Math.cos(a)) < width; x += r * (1 + Math.cos(a)), y += (-1) ** j++ * r * Math.sin(a)) {
-        drawHexagon(x, y);
-      }
+    let y = r;
+
+    for (let i = 0; y + 2 * r * Math.sin(a) < height; i++) {
+        y = r + (i * 2 * r * Math.sin(a))
+        for (let x = r, j = 0; x + r * (1 + Math.cos(a)) < width; x += Math.round(r * ( 1 + Math.cos(a))), y += Math.round((-1) ** j++ * r * Math.sin(a))) {
+            drawHexagon(x, y)
+        }
     }
   }
 
@@ -72,5 +75,3 @@ function colorHex(index, terrainType) {
 }
 
 drawGrid(canvas.width, canvas.height)
-
-
